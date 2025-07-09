@@ -35,7 +35,7 @@ const RenderField = ({ field, props }: { field: any; props: CustomProps }) => {
   switch (fieldType) {
     case FormFieldType.INPUT:
       return (
-        <div className="flex rounded-md border border-dark-500 bg-dark-400 flex-1">
+        <div className="flex rounded-lg border border-dark-500 bg-dark-400 flex-1 overflow-hidden">
           {iconSrc && (
             <Image
               src={iconSrc}
@@ -59,7 +59,7 @@ const RenderField = ({ field, props }: { field: any; props: CustomProps }) => {
         <FormControl>
           <PhoneInput
             defaultCountry="US"
-            placeholder="Enter phone number"
+            placeholder={placeholder}
             international
             withCountryCallingCode
             value={field.value as string | undefined}
