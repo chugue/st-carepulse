@@ -29,12 +29,7 @@ const RegisterForm = ({ user }: { user: User }) => {
 
   const form = useForm<z.infer<typeof PatientFormValidation>>({
     resolver: zodResolver(PatientFormValidation),
-    defaultValues: {
-      ...PatientFormDefaultValues,
-      name: "",
-      email: "",
-      phone: "",
-    },
+    defaultValues: { ...PatientFormDefaultValues },
   });
 
   async function onSubmit(values: z.infer<typeof PatientFormValidation>) {
@@ -67,6 +62,7 @@ const RegisterForm = ({ user }: { user: User }) => {
     } catch (error) {
       console.log(error);
     }
+    setIsLoading(false);
   }
 
   return (
