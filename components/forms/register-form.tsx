@@ -8,7 +8,7 @@ import { useForm } from "react-hook-form";
 import { PatientFormValidation } from "@/lib/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import z from "zod";
-import { createUser, registerPatient } from "@/lib/actions/patient.actions";
+import { registerPatient } from "@/lib/actions/patient.actions";
 import { FormFieldType } from "./patient-form";
 import { useState } from "react";
 import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
@@ -29,7 +29,12 @@ const RegisterForm = ({ user }: { user: User }) => {
 
   const form = useForm<z.infer<typeof PatientFormValidation>>({
     resolver: zodResolver(PatientFormValidation),
-    defaultValues: { ...PatientFormDefaultValues },
+    defaultValues: {
+      ...PatientFormDefaultValues,
+      name: user.name,
+      email: user.email,
+      phone: user.phone,
+    },
   });
 
   async function onSubmit(values: z.infer<typeof PatientFormValidation>) {
@@ -48,17 +53,38 @@ const RegisterForm = ({ user }: { user: User }) => {
       formData.append("fileName", values.identificationDocument[0].name);
     }
     try {
-      const patientData = {
-        ...values,
+      const patient = {
         userId: user.$id,
+        name: values.name,
+        email: values.email,
+        phone: values.phone,
         birthDate: new Date(values.birthDate),
-        identificationDocument: formData,
+        gender: values.gender,
+        address: values.address,
+        occupation: values.occupation,
+        emergencyContactName: values.emergencyContactName,
+        emergencyContactNumber: values.emergencyContactNumber,
+        primaryPhysician: values.primaryPhysician,
+        insuranceProvider: values.insuranceProvider,
+        insurancePolicyNumber: values.insurancePolicyNumber,
+        allergies: values.allergies,
+        currentMedication: values.currentMedication,
+        familyMedicalHistory: values.familyMedicalHistory,
+        pastMedicalHistory: values.pastMedicalHistory,
+        identificationType: values.identificationType,
+        identificationNumber: values.identificationNumber,
+        identificationDocument: values.identificationDocument
+          ? formData
+          : undefined,
+        privacyConsent: values.privacyConsent,
+        treatmentConsent: values.treatmentConsent,
+        disclosureConsent: values.disclosureConsent,
       };
 
       // @ts-ignore
-      const patient = await registerPatient(patientData);
+      const newPatient = await registerPatient(patient);
 
-      if (patient) router.push(`/patients/${user.$id}/new-appointment`);
+      if (newPatient) router.push(`/patients/${user.$id}/new-appointment`);
     } catch (error) {
       console.log(error);
     }
@@ -125,17 +151,13 @@ const RegisterForm = ({ user }: { user: User }) => {
             renderSkeleton={(field) => (
               <FormControl>
                 <RadioGroup
-                  className="flex h-11 gap-6 xl:justify-between "
+                  className="flex h-11 gap-6 xl:justify-between [&_svg]:fill-white"
                   onValueChange={field.onChange}
                   defaultValue={field.value}
                 >
                   {GenderOptions.map((option) => (
                     <div key={option} className="radio-group">
-                      <RadioGroupItem
-                        value={option}
-                        id={option}
-                        className="fill-white"
-                      />
+                      <RadioGroupItem value={option} id={option} />
                       <Label htmlFor={option} className="cursor-pointer">
                         {option}
                       </Label>
