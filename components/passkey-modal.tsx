@@ -23,7 +23,6 @@ import { usePathname, useRouter } from "next/navigation";
 import { decryptKey, encryptKey } from "@/lib/utils";
 
 const PasskeyModal = () => {
-  console.log("PasskeyModal");
   const router = useRouter();
   const path = usePathname();
   const [open, setOpen] = useState(true);

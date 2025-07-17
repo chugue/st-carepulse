@@ -9,7 +9,7 @@ import SubmitButton from "../submit-button";
 import { useState } from "react";
 import { UserFormValidation } from "@/lib/validation";
 import { useRouter } from "next/navigation";
-import { createUser } from "@/lib/actions/patient.actions";
+import { createUser, getUserByEmail } from "@/lib/actions/patient.actions";
 
 export enum FormFieldType {
   INPUT = "input",
@@ -42,8 +42,15 @@ const PatientForm = () => {
     setIsLoading(true);
     try {
       const userData = { name, email, phone };
-      const user = await createUser(userData);
-      if (user) router.push(`/patients/${user!.$id}/register`);
+      const existUser = await getUserByEmail(email);
+
+      if (!existUser) {
+        const user = await createUser(userData);
+        router.push(`/patients/${user!.$id}/register`);
+        return;
+      }
+
+      router.push(`/patients/${existUser!.$id}/new-appointment`);
     } catch (error) {
       console.log(error);
     }

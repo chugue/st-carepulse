@@ -92,3 +92,17 @@ export const registerPatient = async ({
     console.log(error);
   }
 };
+
+export const getUserByEmail = async (email: string) => {
+  try {
+    const user = await users.list([Query.equal("email", [email])]);
+
+    if (user.users.length > 0) {
+      return parseStringify(user.users[0]);
+    }
+
+    return null;
+  } catch (error) {
+    console.log(error);
+  }
+};
