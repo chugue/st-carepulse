@@ -68,7 +68,7 @@ const PatientForm = () => {
           control={form.control}
           name="name"
           label="Full name"
-          placeholder="John Doe"
+          placeholder="이름을 입력해주세요"
           iconSrc="/assets/icons/user.svg"
           iconAlt="user"
           fieldType={FormFieldType.INPUT}
@@ -78,7 +78,7 @@ const PatientForm = () => {
           control={form.control}
           name="email"
           label="Email"
-          placeholder="johndoe@jsmastery.pro"
+          placeholder="이메일을 입력해주세요"
           iconSrc="/assets/icons/email.svg"
           iconAlt="email"
         />
@@ -87,9 +87,9 @@ const PatientForm = () => {
           control={form.control}
           name="phone"
           label="Phone Number"
-          placeholder="(555) 555-5555"
+          placeholder="전화번호를 입력해주세요"
         />
-        <SubmitButton isLoading={isLoading}>Get Started</SubmitButton>
+        <SubmitButton isLoading={isLoading}>시작하기</SubmitButton>
       </form>
     </Form>
   );
