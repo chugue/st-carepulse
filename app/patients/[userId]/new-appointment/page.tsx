@@ -1,15 +1,14 @@
 import AppointmentForm from "@/components/forms/appointment-form";
 import { getPatient } from "@/lib/actions/patient.actions";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { redirect } from "next/navigation";
 
 export default async function NewAppointment({ params }: SearchParamProps) {
   const { userId } = params;
-  const router = useRouter();
 
   const patient = await getPatient(userId);
 
-  if (!patient) router.push(`/patients/${userId}/register`);
+  if (!patient) redirect(`/patients/${userId}/register`);
 
   return (
     <div className="flex h-screen max-h-screen">
