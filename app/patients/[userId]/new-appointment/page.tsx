@@ -1,13 +1,15 @@
 import AppointmentForm from "@/components/forms/appointment-form";
 import { getPatient } from "@/lib/actions/patient.actions";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 export default async function NewAppointment({ params }: SearchParamProps) {
   const { userId } = params;
+  const router = useRouter();
 
   const patient = await getPatient(userId);
 
-  console.log("patient", patient);
+  if (!patient) router.push(`/patients/${userId}/register`);
 
   return (
     <div className="flex h-screen max-h-screen">
@@ -24,7 +26,7 @@ export default async function NewAppointment({ params }: SearchParamProps) {
           <AppointmentForm
             type="create"
             userId={userId}
-            patientId={patient.id}
+            patientId={patient.$id}
           />
           <p className="copyright mt-10 py-12">© 2025 CarePulse</p>
         </div>
