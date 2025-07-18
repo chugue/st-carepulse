@@ -42,6 +42,8 @@ const AppointmentForm = ({
   appointment?: Appointment;
   setOpen?: Dispatch<SetStateAction<boolean>>;
 }) => {
+  console.log("patientId", patientId);
+
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
